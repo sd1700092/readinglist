@@ -1,0 +1,6 @@
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost/readinglist
+#    username: dbuser
+#    password: dbpass
+#    driver-class-name: com.mysql.jdbc.Driver
