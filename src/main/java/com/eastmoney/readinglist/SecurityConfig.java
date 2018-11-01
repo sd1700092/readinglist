@@ -11,6 +11,8 @@
 // * @author Administrator
 // * created: 2018-10-31 17:39
 // */
+
+//@Profile("production")
 //@Configuration
 //@EnableWebSecurity
 //public class SecurityConfig extends WebSecurityConfigurerAdapter {
