@@ -15,19 +15,29 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/readingList")
+//@ConfigurationProperties(prefix = "amazon") //仅用于3.2.2节
 public class ReadingListController {
     private ReadingListRepository readingListRepository;
+//    private String associateId; //仅用于3.2.2节
+    private AmazonProperties amazonProperties;
 
     @Autowired
-    public ReadingListController(ReadingListRepository readingListRepository) {
+    public ReadingListController(ReadingListRepository readingListRepository, AmazonProperties amazonProperties) {
         this.readingListRepository = readingListRepository;
+        this.amazonProperties = amazonProperties;
     }
-
+    
+//    public void setAssociateId(String associateId) { //associateId的setter方法，仅用于3.2.2节
+//        this.associateId = associateId;
+//    }
+    
     @RequestMapping(value = "/{reader}", method = RequestMethod.GET)
     public String readerBooks(@PathVariable("reader") String reader, Model model) {
         List<Book> readingList = readingListRepository.findByReader(reader);
         if (readingList != null) {
             model.addAttribute("books", readingList);
+            model.addAttribute("reader", reader);
+            model.addAttribute("amazonID", amazonProperties.getAssociateId()); //将associateId放入模型
         }
         return "readingList";
     }
