@@ -18,18 +18,26 @@ import java.util.List;
 //@ConfigurationProperties(prefix = "amazon") //仅用于3.2.2节
 public class ReadingListController {
     private ReadingListRepository readingListRepository;
-//    private String associateId; //仅用于3.2.2节
+    //    private String associateId; //仅用于3.2.2节
     private AmazonProperties amazonProperties;
-
+    
     @Autowired
     public ReadingListController(ReadingListRepository readingListRepository, AmazonProperties amazonProperties) {
         this.readingListRepository = readingListRepository;
         this.amazonProperties = amazonProperties;
     }
-    
+
 //    public void setAssociateId(String associateId) { //associateId的setter方法，仅用于3.2.2节
 //        this.associateId = associateId;
 //    }
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String readerBooks(Model model) {
+//        final List<Book> books = new ArrayList<>();
+        final List<Book> books = readingListRepository.findAll();
+        model.addAttribute("books", books);
+        return "readingList";
+    }
     
     @RequestMapping(value = "/{reader}", method = RequestMethod.GET)
     public String readerBooks(@PathVariable("reader") String reader, Model model) {
@@ -41,7 +49,7 @@ public class ReadingListController {
         }
         return "readingList";
     }
-
+    
     @RequestMapping(value = "/{reader}", method = RequestMethod.POST)
     public String addToReadingList(@PathVariable("reader") String reader, Book book) {
         book.setReader(reader);
